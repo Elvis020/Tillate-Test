@@ -9,11 +9,13 @@ import {
   CardMedia,
   Button,
 } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LoadingBalls from "./LoadingBalls";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    margin: "0 auto"
   },
   grid: {
     width: "100%",
@@ -26,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: '1rem',
+    marginBottom: "1rem",
   },
   loading: {
     display: "flex",
@@ -43,12 +45,13 @@ const Cards = () => {
   const [photos, setPhotos] = useState([]);
   const [showMore, setShowMore] = useState(20);
   const [isLoading, setIsLoading] = useState(false);
-
+  const limit = 100;
+  
   const loadData = async () => {
     const URL = "https://jsonplaceholder.typicode.com/photos";
     const res = await fetch(URL);
     const data = await res.json();
-    const curatedData = await data.splice(0, 60);
+    const curatedData = await data.splice(0, limit);
     const selectedData = await curatedData.splice(0, showMore);
     await setPhotos(selectedData);
     setIsLoading(false);
@@ -112,7 +115,9 @@ const Cards = () => {
           color="secondary"
           className={classes.button}
           onClick={increaseData}
-          disabled={!photos || isLoading || showMore === 60}
+          disabled={!photos || isLoading || showMore === limit}
+          size="large"
+          endIcon={<ExpandMoreIcon />}
         >
           Show More
         </Button>
