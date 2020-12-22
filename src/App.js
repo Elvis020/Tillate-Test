@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, ImageContainer } from "./components";
+import Header from "./components/Header";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./components/Theme";
 import Cards from "./components/Cards";

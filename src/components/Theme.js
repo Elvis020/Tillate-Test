@@ -6,5 +6,10 @@ export default createMuiTheme({
         toolbar: {
             minHeight: 56
         }
+    },
+    palette:{
+        background:{
+            default: 'rgba(0,0,0,.9)',
+        }
     }
 });

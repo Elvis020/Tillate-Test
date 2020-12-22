@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
+import {
+  Typography,
+  Grid,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Button,
+} from "@material-ui/core";
+import LoadingBalls from "./LoadingBalls";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   grid: {
     width: "100%",
-    padding: "1.5rem",
+    margin: "0 auto",
   },
   media: {
     height: 230,
@@ -23,6 +26,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: '1rem',
+  },
+  loading: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh",
+    width: "100vw",
+    opacity: 0.5,
   },
 }));
 
@@ -36,13 +48,13 @@ const Cards = () => {
     const URL = "https://jsonplaceholder.typicode.com/photos";
     const res = await fetch(URL);
     const data = await res.json();
-    const curatedData = await data.splice(0, 60)
+    const curatedData = await data.splice(0, 60);
     const selectedData = await curatedData.splice(0, showMore);
     await setPhotos(selectedData);
     setIsLoading(false);
   };
 
-  const increaseData = async() => {
+  const increaseData = async () => {
     await loadData();
     setIsLoading(true);
     setShowMore(showMore + 20);
@@ -61,7 +73,7 @@ const Cards = () => {
             const { title, url, id, thumbnailUrl } = photo;
             const evenId = id % 2 === 0;
             return (
-              <React.Fragment key={id} >
+              <React.Fragment key={id}>
                 {evenId && (
                   <Grid item xs={12} sm={6} md={4}>
                     <Card className={classes.root}>
@@ -89,7 +101,9 @@ const Cards = () => {
             );
           })
         ) : (
-          <div>Loading...</div>
+          <div className={classes.loading}>
+            <LoadingBalls />
+          </div>
         )}
       </Grid>
       <div className={classes.buttonContainer}>
