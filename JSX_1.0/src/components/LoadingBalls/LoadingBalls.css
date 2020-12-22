@@ -8,24 +8,20 @@
   height: 20px;
   background: #0077ff;
   border-radius: 50%;
-  animation: rolling 0.5s cubic-bezier(0.19, 0.57, 0.3, 0.98) infinite
-    alternate;
+  animation: rolling 0.5s cubic-bezier(0.19, 0.57, 0.3, 0.98) infinite alternate;
 }
 
 .balls div:nth-child(2) {
   animation-delay: 0.1s;
   background: #aa0071;
-  /* opacity: 0.8; */
 }
 .balls div:nth-child(3) {
   background: #1b087c;
   animation-delay: 0.2s;
-  /* opacity: 0.6; */
 }
 .balls div:nth-child(4) {
   background: #2c013a;
   animation-delay: 0.3s;
-  /* opacity: 0.4; */
 }
 
 @keyframes rolling {

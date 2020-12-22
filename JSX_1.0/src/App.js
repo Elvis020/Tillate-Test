@@ -7,6 +7,7 @@ import Cards from "./components/Cards";
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      {/* Main Components used are Header and Cards */}
       <Header />
       <Cards />
     </ThemeProvider>

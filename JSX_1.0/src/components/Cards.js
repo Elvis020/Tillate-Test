@@ -12,10 +12,11 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LoadingBalls from "./LoadingBalls";
 
+// custom styling using useStyles to edit the default theme 😃
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    margin: "0 auto"
+    margin: "0 auto",
   },
   grid: {
     width: "100%",
@@ -41,12 +42,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Cards = () => {
-  const classes = useStyles();
+  const classes = useStyles(); // Setting up classes as reference to default theme
+
+  // Initializing states with hooks
   const [photos, setPhotos] = useState([]);
   const [showMore, setShowMore] = useState(20);
   const [isLoading, setIsLoading] = useState(false);
+  // Setting limit to the data taken from api
   const limit = 100;
-  
+
+  // Function to load Data from api using async await
   const loadData = async () => {
     const URL = "https://jsonplaceholder.typicode.com/photos";
     const res = await fetch(URL);
@@ -57,26 +62,33 @@ const Cards = () => {
     setIsLoading(false);
   };
 
+  // Function to increase data by 10 when Show more button is clicked
   const increaseData = async () => {
     await loadData();
     setIsLoading(true);
     setShowMore(showMore + 20);
   };
 
+  // Side effect whenever the show more state is loaded or updated
   useEffect(() => {
     setIsLoading(true);
     loadData();
   }, [showMore]);
 
+  // Grid container for data to be piped through
   return (
     <>
       <Grid container spacing={6} className={classes.grid}>
         {photos && !isLoading ? (
           photos.map((photo) => {
             const { title, url, id, thumbnailUrl } = photo;
+
+            // Making sure the id is even
             const evenId = id % 2 === 0;
+
             return (
               <React.Fragment key={id}>
+                {/* Piping data that has evenId */}
                 {evenId && (
                   <Grid item xs={12} sm={6} md={4}>
                     <Card className={classes.root}>
@@ -87,6 +99,7 @@ const Cards = () => {
                         />
                         <CardContent>
                           <Typography variant="h6">
+                            {/* Checking the length of text and adding ... if it is longer than 20 characters */}
                             <span>{id}</span>.{" "}
                             {title.length > 10
                               ? title.substring(0, 20) + "..."
@@ -104,11 +117,13 @@ const Cards = () => {
             );
           })
         ) : (
+          // Loading animation whiles fetching data
           <div className={classes.loading}>
             <LoadingBalls />
           </div>
         )}
       </Grid>
+      {/* Button to show more if clicked */}
       <div className={classes.buttonContainer}>
         <Button
           variant="contained"
