@@ -36,22 +36,22 @@ const Cards = () => {
     const URL = "https://jsonplaceholder.typicode.com/photos";
     const res = await fetch(URL);
     const data = await res.json();
-    const selectedData = await data.splice(1, showMore);
-    setPhotos(selectedData);
+    const curatedData = await data.splice(0, 60)
+    const selectedData = await curatedData.splice(0, showMore);
+    await setPhotos(selectedData);
     setIsLoading(false);
   };
 
-  const increaseData = () => {
-    const increase = 20;
+  const increaseData = async() => {
+    await loadData();
     setIsLoading(true);
-    setShowMore(showMore + increase);
-    loadData();
+    setShowMore(showMore + 20);
   };
 
   useEffect(() => {
     setIsLoading(true);
     loadData();
-  }, []);
+  }, [showMore]);
 
   return (
     <>
@@ -61,11 +61,11 @@ const Cards = () => {
             const { title, url, id, thumbnailUrl } = photo;
             const evenId = id % 2 === 0;
             return (
-              <>
+              <React.Fragment key={id} >
                 {evenId && (
-                  <Grid key={id} item xs={12} sm={6} md={4}>
+                  <Grid item xs={12} sm={6} md={4}>
                     <Card className={classes.root}>
-                      <CardActionArea>
+                      <CardActionArea key={id}>
                         <CardMedia
                           className={classes.media}
                           image={thumbnailUrl}
@@ -73,7 +73,7 @@ const Cards = () => {
                         <CardContent>
                           <Typography variant="h6">
                             <span>{id}</span>.{" "}
-                            {title.length > 20
+                            {title.length > 10
                               ? title.substring(0, 20) + "..."
                               : "..."}
                           </Typography>
@@ -85,7 +85,7 @@ const Cards = () => {
                     </Card>
                   </Grid>
                 )}
-              </>
+              </React.Fragment>
             );
           })
         ) : (
@@ -98,7 +98,7 @@ const Cards = () => {
           color="secondary"
           className={classes.button}
           onClick={increaseData}
-          disabled={!photos || isLoading}
+          disabled={!photos || isLoading || showMore === 60}
         >
           Show More
         </Button>
